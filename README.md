@@ -1,5 +1,5 @@
-# Project Title
-## Description : This is my cool project
+# Smart Vending Machine
+## Description : The GUI and control systems of the vending machine
 ## Team Name: Team Cool
 ### Group Members:
 - Reese Seals
