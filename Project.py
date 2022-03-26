@@ -7,16 +7,24 @@ from tkinter import *
 
 # class for the screen
 class Screen(Frame):
+
+    """ framelist = [1,2]
+    frame_index = 0
+    count = 0 """
+    
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="black")
         self.BackGround()
         self.setupGUI()
 
+        """ self.animate_gif(100)"""
+
     def BackGround(self):
         # BackGround in progress
-        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/csc132/La_tech.png")
+        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
         label= Label(self, image=bg)
-        label.place(x=0,y=0, relheight=1, relwidth=1)
+        label.image = bg
+        label.place(x=0,y=0,relheight=1, relwidth=1)
         self.pack(fill=BOTH, expand=1)
 
     # the setup
@@ -24,18 +32,49 @@ class Screen(Frame):
         # variable for assigning the image
         #img = PhotoImage(file="C:/Users/angry/Desktop/dew.gif")
         # Reese's file
-        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/csc132/dew.gif")
+        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
         button = Button(self, bg="white", image=img)
         button.image = img
         # shove it in a cell
-        button.grid(row=0, column=0, columnspan=1, sticky=N + S + E + W)
+        button.grid(row=2, column=2, columnspan=2, sticky=N + S + E + W)
+
+        button2 = Button(self,image=img)
+        button2.image = img
+        button2.grid(row=1,column=1, columnspan=1, sticky=N+S+E+W)
 
         self.pack(fill=BOTH, expand=1)
 
 
+    """ def animate_gif(self, count):
+        print(self.framelist)
+        Label.config(image = self.framelist[count])
+        print(self.framelist)
+        count +=1
+        if count > 10:
+            count = 0
+        self.pack(fill=BOTH, expand=1)
+        
+        self.after(100, lambda : self.animate_gif(count))
+
+    def run_animation(self):
+        while True:
+            try:
+                bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif", format = "gif - {}".format(frame))
+                
+
+                frame = frame + 1
+
+            except:
+                print("break")
+                last_frame = self.frame_index - 1
+                break
+            self.framelist.append(frame)
+            print(len(self.framelist), "frame")
+            self.frame_index += 1
+ """
+
 window = Tk()
 window.geometry("{}x{}".format(800, 800))
-
 s = Screen(window)
 mainloop()
