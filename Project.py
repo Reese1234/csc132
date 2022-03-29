@@ -37,13 +37,19 @@ class Screen(Frame):
         button = Button(self, bg="white", image=img)
         button.image = img
         # shove it in a cell
-        button.grid(row=2, column=2, columnspan=2, sticky=N + S + E + W)
+        button.place(x=300, y=0)
 
         button2 = Button(self,image=img)
         button2.image = img
-        button2.grid(row=1,column=1, columnspan=1, sticky=N+S+E+W)
+        # place allows you to put it in a specfic place rather than a relative column or row like grid
+        button2.place(x=300, y= 200)
 
         self.pack(fill=BOTH, expand=1)
+
+        Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
+        SettingIcon = Button(self, image=Simg)
+        SettingIcon.image = Simg
+        SettingIcon.place(x=0, y=0)
 
 
     """ def animate_gif(self, count):
