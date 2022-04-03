@@ -16,6 +16,7 @@ class Screen(Frame):
         Frame.__init__(self, parent, bg="black")
         self.BackGround()
         self.setupGUI()
+        
 
         """ self.animate_gif(100)"""
 
@@ -34,7 +35,7 @@ class Screen(Frame):
         # Reese's file
         img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
-        button = Button(self, bg="white", image=img)
+        button = Button(self, bg="white", image=img, command=lambda: self.Press2())
         button.image = img
         # shove it in a cell
         button.place(x=300, y=0)
@@ -47,9 +48,27 @@ class Screen(Frame):
         self.pack(fill=BOTH, expand=1)
 
         Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
-        SettingIcon = Button(self, image=Simg)
-        SettingIcon.image = Simg
-        SettingIcon.place(x=0, y=0)
+        self.SettingIcon = Button(self, image=Simg)
+        self.SettingIcon.image = Simg
+        self.SettingIcon.place(x=0, y=0)
+
+        InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
+        InfoButton = Button(self, image=InfoButtonPicture, command=lambda: self.Press())
+        InfoButton.image = InfoButtonPicture
+        InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
+    def Press(self):
+        self.SettingIcon.destroy()
+        
+        #Label(self, bg="cyan", text="Hey")
+        #Label.pack( fill=BOTH, expand=1)
+    def Press2(self):
+        Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
+        self.SettingIcon = Button(self, image=Simg)
+        self.SettingIcon.image = Simg
+        self.SettingIcon.place(x=0, y=0)
+        
+
+
 
 
     """ def animate_gif(self, count):
@@ -83,4 +102,4 @@ class Screen(Frame):
 window = Tk()
 window.geometry("{}x{}".format(800, 800))
 s = Screen(window)
-mainloop()
+s.mainloop()
