@@ -38,12 +38,12 @@ class Screen(Frame):
         # Reese's file
         img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
-        self.button = Button(self, bg="white", image=img, command=lambda: self.StockPage())
+        self.button = Button(self, bg="white", image=img,borderwidth=0, command=lambda: self.StockPage())
         self.button.image = img
         # shove it in a cell
         self.button.place(x=300, y=0)                                       # Change to fix RPI display
 
-        self.button2 = Button(self,image=img)
+        self.button2 = Button(self,image=img, borderwidth=0)
         self.button2.image = img
         # place allows you to put it in a specfic place rather than a relative column or row like grid
         self.button2.place(x=300, y= 200)                                   # Change to fix RPI Display
@@ -53,7 +53,7 @@ class Screen(Frame):
         #Simg = PhotoImage(file="C:/Users/angry/Desktop/csc132/Project Buttons/SettingIcon.png")
         # Reese's file
         Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
-        self.SettingIcon = Button(self, image=Simg, command=lambda: self.SettingsPage())
+        self.SettingIcon = Button(self, image=Simg, borderwidth=0,command=lambda: self.SettingsPage())
         self.SettingIcon.image = Simg
         self.SettingIcon.place(x=0, y=0)
         
@@ -61,7 +61,7 @@ class Screen(Frame):
         #InfoButtonPicture = PhotoImage(file="C:/Users/angry/Desktop/csc132/Project Buttons/Info_Button.png")
         # Reese's file
         InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
-        self.InfoButton = Button(self, image=InfoButtonPicture, command=lambda: self.InfoPage())
+        self.InfoButton = Button(self, image=InfoButtonPicture, borderwidth=0,command=lambda: self.InfoPage())
         self.InfoButton.image = InfoButtonPicture
         self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
 
