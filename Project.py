@@ -12,60 +12,85 @@ class Screen(Frame):
     frame_index = 0
     count = 0 """
     
+    
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="black")
-        self.BackGround()
         self.setupGUI()
         
 
         """ self.animate_gif(100)"""
 
-    def BackGround(self):
-        # BackGround in progress
-        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
-        label= Label(self, image=bg)
-        label.image = bg
-        label.place(x=0,y=0,relheight=1, relwidth=1)
-        self.pack(fill=BOTH, expand=1)
-
     # the setup
     def setupGUI(self):
+        # BackGround in progress
+        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
+        self.label= Label(self, image=bg)
+        self.label.image = bg
+        self.label.place(x=0,y=0,relheight=1, relwidth=1)
+        self.pack(fill=BOTH, expand=1)
         # variable for assigning the image
         #img = PhotoImage(file="C:/Users/angry/Desktop/dew.gif")
         # Reese's file
         img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
-        button = Button(self, bg="white", image=img, command=lambda: self.Press2())
-        button.image = img
+        self.button = Button(self, bg="white", image=img)
+        self.button.image = img
         # shove it in a cell
-        button.place(x=300, y=0)
+        self.button.place(x=300, y=0)                                       # Change to fix RPI display
 
-        button2 = Button(self,image=img)
-        button2.image = img
+        self.button2 = Button(self,image=img)
+        self.button2.image = img
         # place allows you to put it in a specfic place rather than a relative column or row like grid
-        button2.place(x=300, y= 200)
+        self.button2.place(x=300, y= 200)                                   # Change to fix RPI Display
 
         self.pack(fill=BOTH, expand=1)
 
         Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
-        self.SettingIcon = Button(self, image=Simg)
+        self.SettingIcon = Button(self, image=Simg, command=lambda: self.SettingsPage())
         self.SettingIcon.image = Simg
         self.SettingIcon.place(x=0, y=0)
 
         InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
-        InfoButton = Button(self, image=InfoButtonPicture, command=lambda: self.Press())
-        InfoButton.image = InfoButtonPicture
-        InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
-    def Press(self):
+        self.InfoButton = Button(self, image=InfoButtonPicture, command=lambda: self.InfoPage())
+        self.InfoButton.image = InfoButtonPicture
+        self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
+
+    def InfoPage(self):
         self.SettingIcon.destroy()
+        self.InfoButton.destroy()
+        self.button.destroy()
+        self.button2.destroy()
+        self.label.destroy()
+        try:
+            self.SettingsLabel.destroy()
+        except:
+            pass
+        self.label2 = Label(self, bg= "red", text="Page 2", font=("Arial", 25))
+        self.label2.place(x= 0, y=0, relheight=1, relwidth=1)
+        self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
+        self.BackButton.place(x=350, y =100)
+        self.pack(fill=BOTH, expand=1)
+
+
         
         #Label(self, bg="cyan", text="Hey")
         #Label.pack( fill=BOTH, expand=1)
-    def Press2(self):
-        Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
-        self.SettingIcon = Button(self, image=Simg)
-        self.SettingIcon.image = Simg
-        self.SettingIcon.place(x=0, y=0)
+    def SettingsPage(self):
+        self.SettingIcon.destroy()
+        self.InfoButton.destroy()
+        self.button.destroy()
+        self.button2.destroy()
+        self.label.destroy()
+        try:
+            self.label2.destroy()
+            self.BackButton.destroy()
+        except:
+            pass
+        self.SettingsLabel = Label(self, bg="white", text="This will be the settings page where we have options and stuff", font=("Arial", 13), padx=-30)
+        self.SettingsLabel.place(x=0, y=0, relheight=1, relwidth=1)
+        self.BackButton2 = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
+        self.BackButton2.place(x=350, y =100)
+        self.pack(fill=BOTH, expand=1)
         
 
 
@@ -103,3 +128,4 @@ window = Tk()
 window.geometry("{}x{}".format(800, 800))
 s = Screen(window)
 s.mainloop()
+print(Screen.Buttonslist)
