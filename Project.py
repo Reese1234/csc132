@@ -38,7 +38,7 @@ class Screen(Frame):
         # Reese's file
         img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
-        self.button = Button(self, bg="white", image=img)
+        self.button = Button(self, bg="white", image=img, command=lambda: self.StockPage())
         self.button.image = img
         # shove it in a cell
         self.button.place(x=300, y=0)                                       # Change to fix RPI display
@@ -77,6 +77,8 @@ class Screen(Frame):
         self.label.destroy()
         try:
             self.SettingsLabel.destroy()
+            self.BackButton2.destroy()
+            self.BackButton3.destroy()
         except:
             pass
         # The contents of the info menu (WIP)
@@ -104,6 +106,7 @@ class Screen(Frame):
         try:
             self.label2.destroy()
             self.BackButton.destroy()
+            self.BackButton3.destroy()
         except:
             pass
         # The contents of the options menu (WIP)
@@ -113,6 +116,28 @@ class Screen(Frame):
         self.BackButton2.place(x=350, y =100)
         self.pack(fill=BOTH, expand=1)
         
+    def StockPage(self):
+        # Clears all vending options
+        self.SettingIcon.destroy()
+        self.InfoButton.destroy()
+        self.button.destroy()
+        self.button2.destroy()
+        self.label.destroy()
+        try:
+            self.label2.destroy()
+            self.BackButton.destroy()
+        except:
+            pass
+        try:
+            self.SettingsLabel.destroy()
+            self.BackButton2.destroy()
+        except:
+            pass
+        self.StockLabel = Label(self, bg="cyan").place(x=0, y=0, relheight=1, relwidth=1)
+        self.BackButton3 = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
+        self.BackButton3.place(x=350, y =100)
+        self.pack(fill=BOTH, expand=1)
+
 
 
 
