@@ -23,13 +23,18 @@ class Screen(Frame):
     # the setup
     def setupGUI(self):
         # BackGround in progress
+        # Mason's file
+        #bg = PhotoImage(file = "C:/Users/angry/Desktop/csc132/Project Buttons/La_tech.gif")
+        # Reese's file
         bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
         self.label= Label(self, image=bg)
         self.label.image = bg
         self.label.place(x=0,y=0,relheight=1, relwidth=1)
         self.pack(fill=BOTH, expand=1)
         # variable for assigning the image
-        #img = PhotoImage(file="C:/Users/angry/Desktop/dew.gif")
+
+        # Mason's file
+        #img = PhotoImage(file = "C:/Users/angry/Desktop/csc132/Project Buttons/dew.gif")
         # Reese's file
         img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
@@ -44,18 +49,27 @@ class Screen(Frame):
         self.button2.place(x=300, y= 200)                                   # Change to fix RPI Display
 
         self.pack(fill=BOTH, expand=1)
-
+        # Mason's file
+        #Simg = PhotoImage(file="C:/Users/angry/Desktop/csc132/Project Buttons/SettingIcon.png")
+        # Reese's file
         Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
         self.SettingIcon = Button(self, image=Simg, command=lambda: self.SettingsPage())
         self.SettingIcon.image = Simg
         self.SettingIcon.place(x=0, y=0)
-
+        
+        # Mason's file
+        #InfoButtonPicture = PhotoImage(file="C:/Users/angry/Desktop/csc132/Project Buttons/Info_Button.png")
+        # Reese's file
         InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
         self.InfoButton = Button(self, image=InfoButtonPicture, command=lambda: self.InfoPage())
         self.InfoButton.image = InfoButtonPicture
         self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
 
+
+    # This function creates the info page. 
+    # It clears the screen of all vending options and displays the info menu.
     def InfoPage(self):
+        # Clears all vending options.
         self.SettingIcon.destroy()
         self.InfoButton.destroy()
         self.button.destroy()
@@ -65,6 +79,7 @@ class Screen(Frame):
             self.SettingsLabel.destroy()
         except:
             pass
+        # The contents of the info menu (WIP)
         self.label2 = Label(self, bg= "red", text="Page 2", font=("Arial", 25))
         self.label2.place(x= 0, y=0, relheight=1, relwidth=1)
         self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
@@ -75,7 +90,12 @@ class Screen(Frame):
         
         #Label(self, bg="cyan", text="Hey")
         #Label.pack( fill=BOTH, expand=1)
+    
+    # This function creates the settings page. 
+    # It clears the screen of all vending options and displays the options menu.
+    # To enter the settings menu, an prompt will pop up asking for a password. Correct password results in entering options, while failed denies access.
     def SettingsPage(self):
+        # Clears all vending options
         self.SettingIcon.destroy()
         self.InfoButton.destroy()
         self.button.destroy()
@@ -86,6 +106,7 @@ class Screen(Frame):
             self.BackButton.destroy()
         except:
             pass
+        # The contents of the options menu (WIP)
         self.SettingsLabel = Label(self, bg="white", text="This will be the settings page where we have options and stuff", font=("Arial", 13), padx=-30)
         self.SettingsLabel.place(x=0, y=0, relheight=1, relwidth=1)
         self.BackButton2 = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
