@@ -1,4 +1,5 @@
 from tkinter import *
+from PIL import Image, ImageTk
 
 #git add
 #git commit -m"comment"
@@ -128,12 +129,35 @@ class Screen(Frame):
         except:
             pass
     def Mountaindew(self):
-        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        framesTotal = img.n_frames
+
+        play_back_delay = 30
+        animation = []
+        self.label5 = Label(self)
+        def loadGif():
+            for x in range(framesTotal):
+                frame = ImageTk.PhotoImage(img.copy())
+                animation.append(frame)
+                img.seek(x)
+
+
+        def update(ind):
+            frame = animation[ind]
+            self.label5.configure(image=frame)
+    
+            ind += 1
+            if ind == framesTotal:
+                ind = 0
+
+            self.after(play_back_delay, update, ind)
         # the setup for the button itself, assigning the image on top of it
-        self.button4 = Button(self, bg="white", image=img,borderwidth=0)
-        self.button4.image = img
-        # shove it in a cell
-        self.button4.place(x=250, y=150, relheight=0.6, relwidth=0.7)
+        self.label5 = Label(self)
+        self.label5.pack(fill=BOTH, expand=2, anchor=N)
+        loadGif()
+        update(0)
+        self.BackButton4 = Button(self, text="click here")
+        self.BackButton4.place(x=250, y=100)
 
 
     """ def animate_gif(self, count):
