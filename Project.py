@@ -64,23 +64,14 @@ class Screen(Frame):
         self.InfoButton = Button(self, image=InfoButtonPicture, borderwidth=0,command=lambda: self.InfoPage())
         self.InfoButton.image = InfoButtonPicture
         self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
+        
 
 
     # This function creates the info page. 
     # It clears the screen of all vending options and displays the info menu.
     def InfoPage(self):
         # Clears all vending options.
-        self.SettingIcon.destroy()
-        self.InfoButton.destroy()
-        self.button.destroy()
-        self.button2.destroy()
-        self.label.destroy()
-        try:
-            self.SettingsLabel.destroy()
-            self.BackButton2.destroy()
-            self.BackButton3.destroy()
-        except:
-            pass
+        self.Level1()
         # The contents of the info menu (WIP)
         self.label2 = Label(self, bg= "red", text="Page 2", font=("Arial", 25))
         self.label2.place(x= 0, y=0, relheight=1, relwidth=1)
@@ -98,17 +89,7 @@ class Screen(Frame):
     # To enter the settings menu, an prompt will pop up asking for a password. Correct password results in entering options, while failed denies access.
     def SettingsPage(self):
         # Clears all vending options
-        self.SettingIcon.destroy()
-        self.InfoButton.destroy()
-        self.button.destroy()
-        self.button2.destroy()
-        self.label.destroy()
-        try:
-            self.label2.destroy()
-            self.BackButton.destroy()
-            self.BackButton3.destroy()
-        except:
-            pass
+        self.Level1()
         # The contents of the options menu (WIP)
         self.SettingsLabel = Label(self, bg="white", text="This will be the settings page where we have options and stuff", font=("Arial", 13), padx=-30)
         self.SettingsLabel.place(x=0, y=0, relheight=1, relwidth=1)
@@ -118,6 +99,14 @@ class Screen(Frame):
         
     def StockPage(self):
         # Clears all vending options
+        self.Level1()
+        self.StockLabel = Label(self, bg="white").place(x=0, y=0, relheight=1, relwidth=1)
+        self.BackButton3 = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
+        self.BackButton3.place(x=350, y =100)
+        self.pack(fill=BOTH, expand=1)
+        self.Mountaindew()
+
+    def Level1(self):
         self.SettingIcon.destroy()
         self.InfoButton.destroy()
         self.button.destroy()
@@ -133,13 +122,18 @@ class Screen(Frame):
             self.BackButton2.destroy()
         except:
             pass
-        self.StockLabel = Label(self, bg="cyan").place(x=0, y=0, relheight=1, relwidth=1)
-        self.BackButton3 = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
-        self.BackButton3.place(x=350, y =100)
-        self.pack(fill=BOTH, expand=1)
-
-
-
+        try:
+            self.StockLabel.destroy()
+            self.BackButton3.destroy()
+        except:
+            pass
+    def Mountaindew(self):
+        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        # the setup for the button itself, assigning the image on top of it
+        self.button4 = Button(self, bg="white", image=img,borderwidth=0)
+        self.button4.image = img
+        # shove it in a cell
+        self.button4.place(x=250, y=150, relheight=0.6, relwidth=0.7)
 
 
     """ def animate_gif(self, count):
@@ -174,4 +168,3 @@ window = Tk()
 window.geometry("{}x{}".format(800, 800))
 s = Screen(window)
 s.mainloop()
-print(Screen.Buttonslist)
