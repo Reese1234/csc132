@@ -101,10 +101,8 @@ class Screen(Frame):
     def StockPage(self):
         # Clears all vending options
         self.Level1()
-        self.StockLabel = Label(self, bg="white").place(x=0, y=0, relheight=1, relwidth=1)
-        self.BackButton3 = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
-        self.BackButton3.place(x=350, y =100)
-        self.pack(fill=BOTH, expand=1)
+        self.StockLabel = Label(self, bg="white")
+        self.StockLabel.place(x=0, y=0, relheight=1, relwidth=1)
         self.Mountaindew()
 
     def Level1(self):
@@ -125,7 +123,7 @@ class Screen(Frame):
             pass
         try:
             self.StockLabel.destroy()
-            self.BackButton3.destroy()
+            self.BackButton4.destroy()
         except:
             pass
     def Mountaindew(self):
