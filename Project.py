@@ -104,10 +104,15 @@ class Screen(Frame):
         # Clears all vending options.
         self.Level1()
         # The contents of the info menu (WIP)
-        self.label.pack(fill=BOTH, expand=1)
         self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
         self.BackButton.place(x=350, y =100)
-        self.pack(fill=BOTH, expand=1)
+        textimg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Info_Tech.png")
+        self.Text = Label(self, image= textimg, borderwidth=0)
+        self.Text.image = textimg
+        self.Text.place(x=0, y=0, relheight=1, relwidth=1)
+        
+        
+
 
     # Controls the Chart page after you click the chart button
     def ChartPage(self):
