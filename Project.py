@@ -1,6 +1,7 @@
 from tkinter import *
 from PIL import Image, ImageTk
 import time
+import json
 
 #git add
 #git commit -m"comment"
@@ -46,8 +47,7 @@ import time
 
 # class for the screen
 class Screen(Frame):
-    
-    
+    stock = 1
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="black")
         self.setupGUI()
@@ -58,9 +58,9 @@ class Screen(Frame):
         self.Level1()
         # BackGround in progress
         # Mason's file
-        bg = PhotoImage(file = "Project Buttons/La_tech.gif")
+        #bg = PhotoImage(file = "Project Buttons/La_tech.gif")
         # Reese's file
-        #bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
+        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
         self.label= Label(self, image=bg)
         self.label.image = bg
         self.label.place(x=0,y=0,relheight=1, relwidth=1)
@@ -68,9 +68,9 @@ class Screen(Frame):
         # variable for assigning the image
 
         # Mason's file
-        img = PhotoImage(file = "Project Buttons/dew.gif")
+        #img = PhotoImage(file = "Project Buttons/dew.gif")
         # Reese's file
-        #img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
         self.button = Button(self, bg="white", image=img,borderwidth=0, command=lambda: self.StockPage())
         self.button.image = img
@@ -78,24 +78,24 @@ class Screen(Frame):
         self.button.place(x=300, y=200)                                       # Change to fix RPI display
 
         # Mason's file
-        Simg = PhotoImage(file = "Project Buttons/SettingIcon.png")
+        #Simg = PhotoImage(file = "Project Buttons/SettingIcon.png")
         # Reese's file
-        #Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
+        Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
         self.SettingIcon = Button(self, image=Simg, borderwidth=0,command=lambda: self.SettingsPage())
         self.SettingIcon.image = Simg
         self.SettingIcon.place(x=0, y=0)
         
         # Mason's file
-        InfoButtonPicture = PhotoImage(file="Project Buttons/Info_Button.png")
+        #InfoButtonPicture = PhotoImage(file="Project Buttons/Info_Button.png")
         # Reese's file
-        #InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
+        InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
         self.InfoButton = Button(self, image=InfoButtonPicture, borderwidth=0,command=lambda: self.InfoPage())
         self.InfoButton.image = InfoButtonPicture
         self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
         # Mason's file
-        Chart = PhotoImage(file="Project Buttons/chart.png")
+        #Chart = PhotoImage(file="Project Buttons/chart.png")
         # Reese's file
-        #Chart = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart.png")
+        Chart = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart.png")
         self.ChartButton = Button(self, image=Chart, borderwidth=0, command=lambda: self.ChartPage())
         self.ChartButton.image = Chart
         self.ChartButton.place(x=640, y=0, relheight=0.2, relwidth=0.2)
@@ -111,9 +111,9 @@ class Screen(Frame):
         self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
         self.BackButton.place(x=350, y =100)
         # Mason's file
-        textimg = PhotoImage(file="Project Buttons/Info_Tech.png")
+        #textimg = PhotoImage(file="Project Buttons/Info_Tech.png")
         # Reese's file
-        #textimg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Info_Tech.png")
+        textimg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Info_Tech.png")
         self.Text = Label(self, image= textimg, borderwidth=0)
         self.Text.image = textimg
         self.Text.place(x=0, y=0, relheight=1, relwidth=1)
@@ -126,10 +126,34 @@ class Screen(Frame):
         # Cleans the Board
         self.Level1()
         # packs the background image
-        self.label.pack(fill=BOTH, expand=1)
+        # Mason's file 
+        #img = PhotoImage(file="Put your file path here")
+        # Reese's File
+        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart_page.png")
+        self.label1 = Label(self, image=img)
+        self.label1.image = img
+        self.label1.place(x=0, y=0, relheight=1, relwidth=1)
+
         # Re intializes the Back Button
-        self.BackButton = Button(self, text = "Go Back", command= lambda: self.setupGUI())
+        self.BackButton = Button(self, text = "Go Back", command= lambda: self.change())
         self.BackButton.place(x= 100, y=100)
+        if (self.stock > 0):
+            print(self.stock)
+            self.Block = Label(self, bg="cyan", borderwidth=0)
+            self.Block.place(x = 300, y =417, relwidth=0.2, relheight=0.2)
+            if (self.stock>1):
+                self.Block1 = Label(self, bg="cyan", borderwidth=0)
+                self.Block1.place(x = 300, y =260, relwidth=0.2, relheight=0.2)
+    def change(self):
+        self.stock = 2
+        data = open(data_Open_Location, "w")
+        info = {"Stock": self.stock, "bean":8}
+        data.write(str(info))
+        data.close()
+        print(self.stock)
+        self.Level1
+        self.ChartPage()
+
 
     
     # This function creates the settings page. 
@@ -234,14 +258,19 @@ class Screen(Frame):
             self.passlabel.destroy()
         except:
             pass
-
+        try:
+            self.Block.destroy()
+            self.label1.destroy()
+            self.Block1.destroy()
+        except:
+            pass
 
     # Controls the Animation on the Stock page of the Mountain Dew
     def Mountaindew(self):
         # Mason's file
-        img = Image.open(r"Project Buttons/dewspin.gif")
+        #img = Image.open(r"Project Buttons/dewspin.gif")
         # Reese's file
-        #img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         framesTotal = img.n_frames
 
         play_back_delay = 30
@@ -276,6 +305,13 @@ class Screen(Frame):
 # this REQUIRES the list() function
 # changing this will mean changing the code of the SettingsPage() function
 password = list("admin")
+# set up for json file which is connected to google drive
+data_Open_Location = "G:/My Drive/Project/label.json"
+startingdata = open(data_Open_Location, "w")
+StartingInfo = {"Stock": 1, "bean":5}
+startingdata.write(str(StartingInfo))
+startingdata.close()
+
 
 
 window = Tk()
