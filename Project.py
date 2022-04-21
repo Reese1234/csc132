@@ -306,6 +306,8 @@ class Screen(Frame):
 # changing this will mean changing the code of the SettingsPage() function
 password = list("admin")
 # set up for json file which is connected to google drive
+# download google drive for desktop and put the file path to the file "label.json" 
+# Reese's json file
 data_Open_Location = "G:/My Drive/Project/label.json"
 startingdata = open(data_Open_Location, "w")
 StartingInfo = {"Stock": 1, "bean":5}
