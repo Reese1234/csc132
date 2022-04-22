@@ -45,9 +45,22 @@ import json
     # close json file
     # read data
 
+# set up for json file which is connected to google drive
+# download google drive for desktop and put the file path to the file "label.json" 
+# Reese's json file
+# Read the json and find the value of the Items to use for intital startup
+data_Open_Location = "G:/My Drive/Project/label.json"
+startingdata = open(data_Open_Location, "r")
+StartingInfo = json.loads(startingdata.read().replace("'", "\""))
+startingdata.close()
+print(StartingInfo["Stock"])
+stock1 = StartingInfo["Stock"] 
+
+###################################### Screen Class ######################################################
+# the window itself
 # class for the screen
 class Screen(Frame):
-    stock = 1
+    stock = StartingInfo["Stock"]
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="black")
         self.setupGUI()
@@ -136,14 +149,14 @@ class Screen(Frame):
 
         # Re intializes the Back Button
         self.BackButton = Button(self, text = "Go Back", command= lambda: self.change())
-        self.BackButton.place(x= 100, y=100)
+        self.BackButton.place(x= 300, y=50)
         if (self.stock > 0):
             print(self.stock)
             self.Block = Label(self, bg="cyan", borderwidth=0)
-            self.Block.place(x = 300, y =417, relwidth=0.2, relheight=0.2)
+            self.Block.place(x = 300, y =445, relwidth=0.2, relheight=0.165)
             if (self.stock>1):
                 self.Block1 = Label(self, bg="cyan", borderwidth=0)
-                self.Block1.place(x = 300, y =260, relwidth=0.2, relheight=0.2)
+                self.Block1.place(x = 300, y =275, relwidth=0.2, relheight=0.23)
     def change(self):
         self.stock = 2
         data = open(data_Open_Location, "w")
@@ -249,7 +262,7 @@ class Screen(Frame):
         except:
             pass
         try:
-            self.label5.destroy()
+            self.label5.forget()
         except:
             pass
         try:
@@ -275,7 +288,6 @@ class Screen(Frame):
 
         play_back_delay = 30
         animation = []
-        self.label5 = Label(self)
         def loadGif():
             for x in range(framesTotal):
                 frame = ImageTk.PhotoImage(img.copy())
@@ -286,7 +298,6 @@ class Screen(Frame):
         def update(ind):
             frame = animation[ind]
             self.label5.configure(image=frame)
-    
             ind += 1
             if ind == framesTotal:
                 ind = 0
@@ -304,18 +315,9 @@ class Screen(Frame):
 ############################# Main Function ########################################################################################################
 # this REQUIRES the list() function
 # changing this will mean changing the code of the SettingsPage() function
-password = list("admin")
-# set up for json file which is connected to google drive
-# download google drive for desktop and put the file path to the file "label.json" 
-# Reese's json file
-data_Open_Location = "G:/My Drive/Project/label.json"
-startingdata = open(data_Open_Location, "w")
-StartingInfo = {"Stock": 1, "bean":5}
-startingdata.write(str(StartingInfo))
-startingdata.close()
+password = list("admin") 
 
-
-
+# basic tk stuff, just setting up the screen and constantly looping the class
 window = Tk()
 window.geometry("{}x{}".format(800, 800))
 s = Screen(window)
