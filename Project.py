@@ -53,14 +53,16 @@ data_Open_Location = "G:/My Drive/Project/label.json"
 startingdata = open(data_Open_Location, "r")
 StartingInfo = json.loads(startingdata.read().replace("'", "\""))
 startingdata.close()
-print(StartingInfo["Stock"])
-stock1 = StartingInfo["Stock"] 
+print(StartingInfo["Machine 1"]["Stock"])
+stock1 = StartingInfo["Machine 1"]["Stock"] 
 
 ###################################### Screen Class ######################################################
 # the window itself
 # class for the screen
 class Screen(Frame):
-    stock = StartingInfo["Stock"]
+    num = 0
+    stock = StartingInfo["Machine 1"]["Stock"]
+    sold = StartingInfo["Machine 1"]["Sold"]
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="black")
         self.setupGUI()
@@ -120,9 +122,6 @@ class Screen(Frame):
     def InfoPage(self):
         # Clears all vending options.
         self.Level1()
-        # The contents of the info menu (WIP)
-        self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
-        self.BackButton.place(x=350, y =100)
         # Mason's file
         #textimg = PhotoImage(file="Project Buttons/Info_Tech.png")
         # Reese's file
@@ -130,9 +129,8 @@ class Screen(Frame):
         self.Text = Label(self, image= textimg, borderwidth=0)
         self.Text.image = textimg
         self.Text.place(x=0, y=0, relheight=1, relwidth=1)
-        
-        
-
+        self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
+        self.BackButton.place(x=350, y =100)
 
     # Controls the Chart page after you click the chart button
     def ChartPage(self):
@@ -146,26 +144,33 @@ class Screen(Frame):
         self.label1 = Label(self, image=img)
         self.label1.image = img
         self.label1.place(x=0, y=0, relheight=1, relwidth=1)
+        self.text1 = Label(self, text="Items Sold", font=("Arial", 25), border=2)
+        self.text1.place(x= 300, y=150, relheight=0.1, relwidth=0.2)
 
         # Re intializes the Back Button
-        self.BackButton = Button(self, text = "Go Back", command= lambda: self.change())
+        self.BackButton = Button(self, text = "Go Back", command= lambda: self.setupGUI())
         self.BackButton.place(x= 300, y=50)
-        if (self.stock > 0):
-            print(self.stock)
+        if (self.sold > 0):
             self.Block = Label(self, bg="cyan", borderwidth=0)
             self.Block.place(x = 300, y =445, relwidth=0.2, relheight=0.165)
-            if (self.stock>1):
+            if (self.sold>1):
                 self.Block1 = Label(self, bg="cyan", borderwidth=0)
                 self.Block1.place(x = 300, y =275, relwidth=0.2, relheight=0.23)
     def change(self):
-        self.stock = 2
         data = open(data_Open_Location, "w")
-        info = {"Stock": self.stock, "bean":8}
+        info = {"Machine 1":
+                        {
+
+                            "Stock": self.stock,
+                            "Sold": 2- self.stock
+
+
+                        }}
         data.write(str(info))
         data.close()
         print(self.stock)
         self.Level1
-        self.ChartPage()
+        return
 
 
     
@@ -277,16 +282,27 @@ class Screen(Frame):
             self.Block1.destroy()
         except:
             pass
+        try:
+            self.minus.destroy()
+            self.confirm.destroy()
+            self.more.destroy()
+        except:
+            pass
+        try:
+            self.text1.destroy()
+        except:
+            pass
 
     # Controls the Animation on the Stock page of the Mountain Dew
     def Mountaindew(self):
+        self.num = 0
         # Mason's file
         #img = Image.open(r"Project Buttons/dewspin.gif")
         # Reese's file
         img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         framesTotal = img.n_frames
 
-        play_back_delay = 30
+        play_back_delay = 70
         animation = []
         def loadGif():
             for x in range(framesTotal):
@@ -305,11 +321,49 @@ class Screen(Frame):
             self.after(play_back_delay, update, ind)
         # the setup for the button itself, assigning the image on top of it
         self.label5 = Label(self)
-        self.label5.place(x=350, y = 300)
+        self.label5.place(x=300, y = 250)
         loadGif()
         update(0)
-        self.BackButton = Button(self, text="click here", command= lambda: self.setupGUI())
-        self.BackButton.place(x=250, y=100)
+        # Reese's file
+        Plus = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Plus_Sign.png")                       ##### Change file path
+        self.more = Button(self, image=Plus, borderwidth=0, command=lambda: self.StockChange(1))
+        self.more.image = Plus
+        self.more.place(x=455, y=600, relheight=0.1, relwidth=0.1)
+        self.BackButton = Button(self, text="Back", font=("Arial",25),command= lambda: self.setupGUI())
+        self.BackButton.place(x=330, y=100, relheight=0.1, relwidth=0.2)
+        # Reese's File 
+        Minus = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Minus_Sign.png")                      ##### Change File Path
+        self.minus = Button(self, image=Minus, borderwidth=0, command=lambda: self.StockChange(-1))
+        self.minus.image = Minus
+        self.minus.place(x=295, y=600, relheight=0.1, relwidth=0.1)
+        self.text1 = Label(self, bg="white", text=f"{self.num}", background="green")
+        self.text1.place(x=375, y=600, relheight=0.1, relwidth=0.1)
+        self.confirm = Button(self, text="Confirm", bg="green", font=("Arial", 25), command=lambda: self.Confirmed())
+        self.confirm.place(x = 335, y = 700, relheight=0.1, relwidth=0.2)
+
+    def StockChange(self, num1):
+        if (self.num>1 and num1 == 1):
+            return
+        if (self.num==0 and num1 == -1):
+            return
+        num = self.num+num1
+        self.num = num
+        self.text1.configure(bg="white", text=f"{self.num}", background="green")
+        self.text1.place(x=375, y=600, relheight=0.1, relwidth=0.1)
+    
+    def Confirmed(self):
+        Catch = self.stock - self.num
+        print(Catch)
+        if (Catch<0):
+            return
+        self.change()
+        self.stock -=self.num
+        self.sold = 2-self.stock
+        self.num = 0
+        self.setupGUI()
+
+
+
 
 
 ############################# Main Function ########################################################################################################
