@@ -58,9 +58,9 @@ class Screen(Frame):
         self.Level1()
         # BackGround in progress
         # Mason's file
-        #bg = PhotoImage(file = "Project Buttons/La_tech.gif")
+        bg = PhotoImage(file = "Project Buttons/La_tech.gif")
         # Reese's file
-        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
+        #bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
         self.label= Label(self, image=bg)
         self.label.image = bg
         self.label.place(x=0,y=0,relheight=1, relwidth=1)
@@ -68,9 +68,9 @@ class Screen(Frame):
         # variable for assigning the image
 
         # Mason's file
-        #img = PhotoImage(file = "Project Buttons/dew.gif")
+        img = PhotoImage(file = "Project Buttons/dew.gif")
         # Reese's file
-        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        #img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         # the setup for the button itself, assigning the image on top of it
         self.button = Button(self, bg="white", image=img,borderwidth=0, command=lambda: self.StockPage())
         self.button.image = img
@@ -78,24 +78,24 @@ class Screen(Frame):
         self.button.place(x=300, y=200)                                       # Change to fix RPI display
 
         # Mason's file
-        #Simg = PhotoImage(file = "Project Buttons/SettingIcon.png")
+        Simg = PhotoImage(file = "Project Buttons/SettingIcon.png")
         # Reese's file
-        Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
+        #Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
         self.SettingIcon = Button(self, image=Simg, borderwidth=0,command=lambda: self.SettingsPage())
         self.SettingIcon.image = Simg
         self.SettingIcon.place(x=0, y=0)
         
         # Mason's file
-        #InfoButtonPicture = PhotoImage(file="Project Buttons/Info_Button.png")
+        InfoButtonPicture = PhotoImage(file="Project Buttons/Info_Button.png")
         # Reese's file
-        InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
+        #InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
         self.InfoButton = Button(self, image=InfoButtonPicture, borderwidth=0,command=lambda: self.InfoPage())
         self.InfoButton.image = InfoButtonPicture
         self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
         # Mason's file
-        #Chart = PhotoImage(file="Project Buttons/chart.png")
+        Chart = PhotoImage(file="Project Buttons/chart.png")
         # Reese's file
-        Chart = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart.png")
+        #Chart = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart.png")
         self.ChartButton = Button(self, image=Chart, borderwidth=0, command=lambda: self.ChartPage())
         self.ChartButton.image = Chart
         self.ChartButton.place(x=640, y=0, relheight=0.2, relwidth=0.2)
@@ -111,9 +111,9 @@ class Screen(Frame):
         self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
         self.BackButton.place(x=350, y =100)
         # Mason's file
-        #textimg = PhotoImage(file="Project Buttons/Info_Tech.png")
+        textimg = PhotoImage(file="Project Buttons/Info_Tech.png")
         # Reese's file
-        textimg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Info_Tech.png")
+        #textimg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Info_Tech.png")
         self.Text = Label(self, image= textimg, borderwidth=0)
         self.Text.image = textimg
         self.Text.place(x=0, y=0, relheight=1, relwidth=1)
@@ -127,9 +127,9 @@ class Screen(Frame):
         self.Level1()
         # packs the background image
         # Mason's file 
-        #img = PhotoImage(file="Put your file path here")
+        img = PhotoImage(file="Put your file path here")
         # Reese's File
-        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart_page.png")
+        #img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart_page.png")
         self.label1 = Label(self, image=img)
         self.label1.image = img
         self.label1.place(x=0, y=0, relheight=1, relwidth=1)
@@ -175,7 +175,7 @@ class Screen(Frame):
         # entry space for password
         # password is "admin"
         # this can be changed in the main code
-        self.passwordEntry = Entry(show="*", width=35,font=("Arial", 20))
+        self.passwordEntry = Label(width=35,font=("Arial", 20))
         self.passwordEntry.place(x=100, y=300)
 
         # the confirm button
@@ -183,16 +183,95 @@ class Screen(Frame):
         self.confirm = Button(self, text="Confirm", font=("Arial", 10), command =lambda: self.PassConfirm() )
         self.confirm.place(x=600, y=350)
 
+        # the key pad
+        # 7
+        self.seven = Button(self,text="7",font=("Arial", 20), command = lambda:self.process("7"))
+        self.seven.place(x=350, y=500)
+
+        # 8
+        self.eight = Button(self,text="8",font=("Arial", 20), command = lambda:self.process("8"))
+        self.eight.place(x=300,y=500)
+
+        # 9
+        self.nine = Button(self,text="9",font=("Arial", 20), command = lambda:self.process("9"))
+        self.nine.place(x=250,y=500)
+
+        # Back
+        self.back = Button(self,text="Back",font=("Arial", 20), command = lambda:self.process("Back"))
+        self.back.place(x=400, y=500)
+
+
+        # 4
+        self.four = Button(self,text="4",font=("Arial", 20), command = lambda:self.process("4"))
+        self.four.place(x=350,y=550)
+
+        # 5
+        self.five = Button(self,text="8",font=("Arial", 20), command = lambda:self.process("5"))
+        self.five.place(x=300,y=550)
+
+        # 6
+        self.six = Button(self,text="6",font=("Arial", 20), command = lambda:self.process("6"))
+        self.six.place(x=250,y=550)
+
+        # 1
+        self.one = Button(self,text="1",font=("Arial", 20), command = lambda:self.process("1"))
+        self.one.place(x=350,y=600)
+
+        # 2
+        self.two = Button(self,text="2",font=("Arial", 20), command = lambda:self.process("2"))
+        self.two.place(x=300,y=600)
+
+        # 3
+        self.three = Button(self,text="3",font=("Arial", 20), command = lambda:self.process("3"))
+        self.three.place(x=250,y=600)
+
+        # 0
+        self.zero = Button(self,text="0",font=("Arial", 20), command=lambda:self.process("0"))
+        self.zero.place(x=300, y=650)
+
 
         self.pack(fill=BOTH, expand=1)
 
+    # function for processing what was input
+    def process(self, buttonName):
+        if(buttonName == "Back"):
+            try:
+                # lower the nums list by one
+                del pass_input[-1]
+                del pass_conceal[-1]
+                # convert the integers in the nums list to a string
+                strings = [str(integer) for integer in pass_input]
+                # remove the spaces when displaying the list
+                a_string = "".join(strings)
+                c_string = "".join(pass_conceal)
+                # if all numbers are deleted...
+                if (len(pass_input) == 0):
+                    # make the screen clear
+                    self.passwordEntry["text"] = ""
+                # otherwise...
+                else:
+                    # display the concealed password list with no spaces
+                    conNoSpaces = c_string
+                    self.passwordEntry["text"] = conNoSpaces
+            except:
+                self.passwordEntry["text"] = ""
+                pass_input.clear()
+        
+        else:
+            # add the button pressed to the nums list
+            pass_input.append(buttonName)
+            pass_conceal.append("*")
+            # display * when presses to conceal the password
+            self.passwordEntry["text"] += "*"
+            
+    
     # function for the confirm button to determine if the entered password is correct or not
     def PassConfirm(self):
         global pass_list
         counter = 0
         # puts each individual letter of the entered password into a list
         # this is used to make it easier when checking if the entered password is the same as the set password
-        pass_list = list(self.passwordEntry.get())
+        pass_list = pass_input
         try:
             for i in range(len(pass_list)):
                 if pass_list[i] == password[i]:
@@ -210,6 +289,7 @@ class Screen(Frame):
                 counter = 0
         except:
             self.PassFail()
+            
 
     # the next screen for the admin
     def SettingsPage2(self):
@@ -218,6 +298,8 @@ class Screen(Frame):
     # displays the entered password is incorrect
     # destroys itself after 3 seconds
     def PassFail(self):
+            pass_input.clear()
+            self.passwordEntry["text"] = ""
             incorrect = Label(text="Incorrect password. Try again")
             incorrect.place(x=100, y=320)
             incorrect.after(3000, lambda: incorrect.destroy())
@@ -268,9 +350,9 @@ class Screen(Frame):
     # Controls the Animation on the Stock page of the Mountain Dew
     def Mountaindew(self):
         # Mason's file
-        #img = Image.open(r"Project Buttons/dewspin.gif")
+        img = Image.open(r"Project Buttons/dewspin.gif")
         # Reese's file
-        img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        #img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
         framesTotal = img.n_frames
 
         play_back_delay = 30
@@ -304,15 +386,17 @@ class Screen(Frame):
 ############################# Main Function ########################################################################################################
 # this REQUIRES the list() function
 # changing this will mean changing the code of the SettingsPage() function
-password = list("admin")
+password = ("0","0","0","0")
+pass_input = []
+pass_conceal = []
 # set up for json file which is connected to google drive
 # download google drive for desktop and put the file path to the file "label.json" 
 # Reese's json file
-data_Open_Location = "G:/My Drive/Project/label.json"
-startingdata = open(data_Open_Location, "w")
-StartingInfo = {"Stock": 1, "bean":5}
-startingdata.write(str(StartingInfo))
-startingdata.close()
+#data_Open_Location = "G:/My Drive/Project/label.json"
+#startingdata = open(data_Open_Location, "w")
+#StartingInfo = {"Stock": 1, "bean":5}
+#startingdata.write(str(StartingInfo))
+#startingdata.close()
 
 
 
