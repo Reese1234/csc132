@@ -61,8 +61,8 @@ stock1 = StartingInfo["Machine 1"]["Stock"]
 # class for the screen
 class Screen(Frame):
     num = 0
-    stock = StartingInfo["Machine 1"]["Stock"]
-    sold = StartingInfo["Machine 1"]["Sold"]
+    #stock = StartingInfo["Machine 1"]["Stock"]
+    #sold = StartingInfo["Machine 1"]["Sold"]
     def __init__(self, parent):
         Frame.__init__(self, parent, bg="black")
         self.setupGUI()
@@ -71,7 +71,6 @@ class Screen(Frame):
     # the setup
     def setupGUI(self):
         self.Level1()
-        # BackGround in progress
         # Mason's file
         #bg = PhotoImage(file = "Project Buttons/La_tech.gif")
         # Reese's file
@@ -191,7 +190,7 @@ class Screen(Frame):
         self.passlabel.place(x=250, y=200)
 
         # entry space for password
-        # password is "admin"
+        # password is "0000"
         # this can be changed in the main code
         self.passwordEntry = Label(width=35,font=("Arial", 20))
         self.passwordEntry.place(x=100, y=300)
@@ -311,7 +310,24 @@ class Screen(Frame):
 
     # the next screen for the admin
     def SettingsPage2(self):
-        print("Im in")
+        self.Level1()
+        # Mason's file
+        #bg = PhotoImage(file = "Project Buttons/La_tech.gif")
+        # Reese's file
+        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
+        self.label= Label(self, image=bg)
+        self.label.image = bg
+        self.label.place(x=0,y=0,relheight=1, relwidth=1)
+        self.pack(fill=BOTH, expand=1)
+        
+        # the request maintenance button
+        self.reqMain = Button(self, bg="orange", text="Request Maintenance",font=("Arial", 20), command = lambda:self.requestMain())
+        self.reqMain.place(x=50, y=100)
+
+
+    # this is where the code will go for sending a text message requesting for maintenance
+    def requestMain(self):
+        pass
 
     # displays the entered password is incorrect
     # destroys itself after 3 seconds
@@ -383,6 +399,10 @@ class Screen(Frame):
             pass
         try:
             self.text1.destroy()
+        except:
+            pass
+        try:
+            self.reqMain.destroy()
         except:
             pass
 
@@ -468,12 +488,12 @@ pass_conceal = []
 # set up for json file which is connected to google drive
 # download google drive for desktop and put the file path to the file "label.json" 
 # Reese's json file
+
 data_Open_Location = "G:/My Drive/Project/label.json"
 startingdata = open(data_Open_Location, "w")
 StartingInfo = {"Stock": 1, "bean":5}
 startingdata.write(str(StartingInfo))
 startingdata.close()
-
 
 
 # basic tk stuff, just setting up the screen and constantly looping the class
