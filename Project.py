@@ -49,6 +49,7 @@ import json
 # download google drive for desktop and put the file path to the file "label.json" 
 # Reese's json file
 # Read the json and find the value of the Items to use for intital startup
+
 data_Open_Location = "G:/My Drive/Project/label.json"
 startingdata = open(data_Open_Location, "r")
 StartingInfo = json.loads(startingdata.read().replace("'", "\""))
@@ -271,8 +272,20 @@ class Screen(Frame):
                     conNoSpaces = c_string
                     self.passwordEntry["text"] = conNoSpaces
             except:
+                # if everything fails, clear the screen
                 self.passwordEntry["text"] = ""
                 pass_input.clear()
+                pass_conceal.clear()
+        
+        # a cap on the password
+        elif(len(pass_input) >= 8):
+            strings = [str(integer) for integer in pass_input]
+            a_string = "".join(strings)
+            c_string = "".join(pass_conceal)
+            conNoSpaces = c_string
+            self.passwordEntry["text"] = conNoSpaces
+        
+        
         
         else:
             # add the button pressed to the nums list
