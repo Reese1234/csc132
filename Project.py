@@ -2,6 +2,8 @@ from tkinter import *
 from PIL import Image, ImageTk
 import time
 import json
+import RPi.GPIO as GPIO
+from twilio.rest import Client
 
 #git add
 #git commit -m"comment"
@@ -49,18 +51,39 @@ import json
 # download google drive for desktop and put the file path to the file "label.json" 
 # Reese's json file
 # Read the json and find the value of the Items to use for intital startup
-
-data_Open_Location = "G:/My Drive/Project/label.json"
-startingdata = open(data_Open_Location, "r")
-StartingInfo = json.loads(startingdata.read().replace("'", "\""))
-startingdata.close()
-print(StartingInfo["Machine 1"]["Stock"])
-stock1 = StartingInfo["Machine 1"]["Stock"] 
+##data_Open_Location = "/home/pi/mnt/gdmedia/Project/label.json"
+##startingdata = open(data_Open_Location, "r")
+##StartingInfo = json.loads(startingdata.read().replace("'", "\""))
+##startingdata.close()
+##print(StartingInfo["Machine 1"]["Stock"])
+##stock1 = StartingInfo["Machine 1"]["Stock"] 
 
 ###################################### Screen Class ######################################################
 # the window itself
 # class for the screen
 class Screen(Frame):
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setup(20, GPIO.IN, GPIO.PUD_DOWN)
+    i = GPIO.input(20)
+    if (i == True):
+        stock = 1
+        print("thing")
+    else:
+        print("lol")
+        stock = 0
+    print(stock)
+    data_Open_Location = "/home/pi/mnt/gdmedia/Project/label.json"
+    data = open(data_Open_Location, "w")
+    info = {"Machine 1":
+                        {
+                            
+                            "Stock": stock,
+                            "Sold": 1- stock
+                            
+                        }}
+    data.write(str(info))
+    data.close()
+    sold = 1-stock
     num = 0
     #stock = StartingInfo["Machine 1"]["Stock"]
     #sold = StartingInfo["Machine 1"]["Sold"]
@@ -72,10 +95,11 @@ class Screen(Frame):
     # the setup
     def setupGUI(self):
         self.Level1()
+        # BackGround in progress
         # Mason's file
         #bg = PhotoImage(file = "Project Buttons/La_tech.gif")
         # Reese's file
-        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
+        bg = PhotoImage(file = "/home/pi/Freshman Expo Project/La_tech.gif")
         self.label= Label(self, image=bg)
         self.label.image = bg
         self.label.place(x=0,y=0,relheight=1, relwidth=1)
@@ -85,35 +109,35 @@ class Screen(Frame):
         # Mason's file
         #img = PhotoImage(file = "Project Buttons/dew.gif")
         # Reese's file
-        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        img = PhotoImage(file="/home/pi/Freshman Expo Project/dew.gif")
         # the setup for the button itself, assigning the image on top of it
         self.button = Button(self, bg="white", image=img,borderwidth=0, command=lambda: self.StockPage())
         self.button.image = img
         # shove it in a cell
-        self.button.place(x=300, y=200)                                       # Change to fix RPI display
+        self.button.place(x=300, y=100)                                       # Change to fix RPI display
 
         # Mason's file
         #Simg = PhotoImage(file = "Project Buttons/SettingIcon.png")
         # Reese's file
-        Simg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/SettingIcon.png")
+        Simg = PhotoImage(file="/home/pi/Freshman Expo Project/SettingIcon.png")
         self.SettingIcon = Button(self, image=Simg, borderwidth=0,command=lambda: self.SettingsPage())
         self.SettingIcon.image = Simg
-        self.SettingIcon.place(x=0, y=0)
+        self.SettingIcon.place(x=0, y=0, relheight=0.2, relwidth=0.17)
         
         # Mason's file
         #InfoButtonPicture = PhotoImage(file="Project Buttons/Info_Button.png")
         # Reese's file
-        InfoButtonPicture = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/info_Button.png")
+        InfoButtonPicture = PhotoImage(file="/home/pi/Freshman Expo Project/Info_Button.png")
         self.InfoButton = Button(self, image=InfoButtonPicture, borderwidth=0,command=lambda: self.InfoPage())
         self.InfoButton.image = InfoButtonPicture
-        self.InfoButton.place(x=0, y=600, relheight=0.2, relwidth=0.2)
+        self.InfoButton.place(x=0, y=375, relheight=0.212, relwidth=0.16)
         # Mason's file
         #Chart = PhotoImage(file="Project Buttons/chart.png")
         # Reese's file
-        Chart = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart.png")
+        Chart = PhotoImage(file="/home/pi/Freshman Expo Project/Chart.png")
         self.ChartButton = Button(self, image=Chart, borderwidth=0, command=lambda: self.ChartPage())
         self.ChartButton.image = Chart
-        self.ChartButton.place(x=640, y=0, relheight=0.2, relwidth=0.2)
+        self.ChartButton.place(x=640, y=0, relheight=0.21, relwidth=0.17)
         
 
 
@@ -125,12 +149,12 @@ class Screen(Frame):
         # Mason's file
         #textimg = PhotoImage(file="Project Buttons/Info_Tech.png")
         # Reese's file
-        textimg = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Info_Tech.png")
+        textimg = PhotoImage(file="/home/pi/Freshman Expo Project/Info_Tech.png")
         self.Text = Label(self, image= textimg, borderwidth=0)
         self.Text.image = textimg
         self.Text.place(x=0, y=0, relheight=1, relwidth=1)
-        self.BackButton = Button(self, text="Click here to go back", bg="white", command=lambda: self.setupGUI() )
-        self.BackButton.place(x=350, y =100)
+        self.BackButton = Button(self, text="Home", bg="blue", command=lambda: self.setupGUI() )
+        self.BackButton.place(x=200, y =400)
 
     # Controls the Chart page after you click the chart button
     def ChartPage(self):
@@ -140,34 +164,33 @@ class Screen(Frame):
         # Mason's file 
         #img = PhotoImage(file="Put your file path here")
         # Reese's File
-        img = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Chart_page.png")
+        img = PhotoImage(file="/home/pi/Freshman Expo Project/Chart_page.png")
         self.label1 = Label(self, image=img)
         self.label1.image = img
         self.label1.place(x=0, y=0, relheight=1, relwidth=1)
-        self.text1 = Label(self, text="Items Sold", font=("Arial", 25), border=2)
-        self.text1.place(x= 300, y=150, relheight=0.1, relwidth=0.2)
+        self.text1 = Label(self, text="Items Sold:", font=("Arial", 25), border=2)
+        self.text1.place(x= 10, y=200, relheight=0.2, relwidth=0.3)
 
         # Re intializes the Back Button
-        self.BackButton = Button(self, text = "Go Back", command= lambda: self.setupGUI())
-        self.BackButton.place(x= 300, y=50)
+        self.BackButton = Button(self, text = "Home", bg="blue", command= lambda: self.setupGUI())
+        self.BackButton.place(x= 50, y=50)
         if (self.sold > 0):
             self.Block = Label(self, bg="cyan", borderwidth=0)
-            self.Block.place(x = 300, y =445, relwidth=0.2, relheight=0.165)
-            if (self.sold>1):
-                self.Block1 = Label(self, bg="cyan", borderwidth=0)
-                self.Block1.place(x = 300, y =275, relwidth=0.2, relheight=0.23)
+            self.Block.place(x = 375, y =265, relwidth=0.2, relheight=0.271)
+            #if (self.sold>1):
+             #   self.Block1 = Label(self, bg="cyan", borderwidth=0)
+              #  self.Block1.place(x = 375, y =95, relwidth=0.2, relheight=0.4)
     def change(self):
-        data = open(data_Open_Location, "w")
+        self.data = open(self.data_Open_Location, "w")
         info = {"Machine 1":
                         {
-
+                            
                             "Stock": self.stock,
-                            "Sold": 2- self.stock
-
-
+                            "Sold": 1- self.stock
+                            
                         }}
-        data.write(str(info))
-        data.close()
+        self.data.write(str(info))
+        self.data.close()
         print(self.stock)
         self.Level1
         return
@@ -183,71 +206,69 @@ class Screen(Frame):
         # The contents of the options menu (WIP)
         # the back button
         self.label.pack(fill=BOTH, expand=1)
-        self.BackButton = Button(self, text="go back", command=lambda: self.setupGUI() )
-        self.BackButton.place(x=100, y=350)
+        self.BackButton = Button(self, text="Home", bg="blue", command=lambda: self.setupGUI() )
+        self.BackButton.place(x=100, y=90)
 
         # a label asking for a password
-        self.passlabel = Label(self, text="Enter password", font=("Arial", 25))
-        self.passlabel.place(x=250, y=200)
+        self.passlabel = Label(self, text="Enter password", font=("Arial", 20))
+        self.passlabel.place(x=250, y=10)
 
         # entry space for password
-        # password is "0000"
+        # password is "admin"
         # this can be changed in the main code
-        self.passwordEntry = Label(width=35,font=("Arial", 20))
-        self.passwordEntry.place(x=100, y=300)
+        self.passwordEntry = Label( width=35,font=("Arial", 20), bg = "white", borderwidth = 2)
+        self.passwordEntry.place(x=100, y=50)
 
         # the confirm button
         # when clicked, determines if the entered password is correct or incorrect
-        self.confirm = Button(self, text="Confirm", font=("Arial", 10), command =lambda: self.PassConfirm() )
-        self.confirm.place(x=600, y=350)
-
+        self.confirm = Button(self, text="Confirm", font=("Arial", 10), activebackground="green", command =lambda: self.PassConfirm() )
+        self.confirm.place(x=555, y=90)
         # the key pad
         # 7
-        self.seven = Button(self,text="7",font=("Arial", 20), command = lambda:self.process("7"))
-        self.seven.place(x=350, y=500)
+        self.seven = Button(self,text="7",font=("Arial", 22), activebackground="red", command = lambda:self.process("7"))
+        self.seven.place(x=250, y=130)
 
         # 8
-        self.eight = Button(self,text="8",font=("Arial", 20), command = lambda:self.process("8"))
-        self.eight.place(x=300,y=500)
+        self.eight = Button(self,text="8",font=("Arial", 22), activebackground="red", command = lambda:self.process("8"))
+        self.eight.place(x=300,y=130)
 
         # 9
-        self.nine = Button(self,text="9",font=("Arial", 20), command = lambda:self.process("9"))
-        self.nine.place(x=250,y=500)
+        self.nine = Button(self,text="9",font=("Arial", 22), activebackground="red", command = lambda:self.process("9"))
+        self.nine.place(x=350,y=130)
 
         # Back
-        self.back = Button(self,text="Back",font=("Arial", 20), command = lambda:self.process("Back"))
-        self.back.place(x=400, y=500)
+        self.back = Button(self,text="<-",font=("Arial", 22), activebackground="red", command = lambda:self.process("Back"))
+        self.back.place(x=400, y=130)
 
 
         # 4
-        self.four = Button(self,text="4",font=("Arial", 20), command = lambda:self.process("4"))
-        self.four.place(x=350,y=550)
+        self.four = Button(self,text="4",font=("Arial", 22), activebackground="red", command = lambda:self.process("4"))
+        self.four.place(x=250,y=200)
 
         # 5
-        self.five = Button(self,text="8",font=("Arial", 20), command = lambda:self.process("5"))
-        self.five.place(x=300,y=550)
+        self.five = Button(self,text="5",font=("Arial", 22), activebackground="red", command = lambda:self.process("5"))
+        self.five.place(x=300,y=200)
 
         # 6
-        self.six = Button(self,text="6",font=("Arial", 20), command = lambda:self.process("6"))
-        self.six.place(x=250,y=550)
+        self.six = Button(self,text="6",font=("Arial", 22), activebackground="red", command = lambda:self.process("6"))
+        self.six.place(x=350,y=200)
 
         # 1
-        self.one = Button(self,text="1",font=("Arial", 20), command = lambda:self.process("1"))
-        self.one.place(x=350,y=600)
+        self.one = Button(self,text="1",font=("Arial", 22), activebackground="red", command = lambda:self.process("1"))
+        self.one.place(x=250,y=270)
 
         # 2
-        self.two = Button(self,text="2",font=("Arial", 20), command = lambda:self.process("2"))
-        self.two.place(x=300,y=600)
+        self.two = Button(self,text="2",font=("Arial", 22), activebackground="red", command = lambda:self.process("2"))
+        self.two.place(x=300,y=270)
 
         # 3
-        self.three = Button(self,text="3",font=("Arial", 20), command = lambda:self.process("3"))
-        self.three.place(x=250,y=600)
+        self.three = Button(self,text="3",font=("Arial", 22), activebackground="red", command = lambda:self.process("3"))
+        self.three.place(x=350,y=270)
 
         # 0
-        self.zero = Button(self,text="0",font=("Arial", 20), command=lambda:self.process("0"))
-        self.zero.place(x=300, y=650)
-
-
+        self.zero = Button(self,text="0",font=("Arial", 22), activebackground="red", command=lambda:self.process("0"))
+        self.zero.place(x=300, y=340)
+                        
         self.pack(fill=BOTH, expand=1)
 
     # function for processing what was input
@@ -272,10 +293,8 @@ class Screen(Frame):
                     conNoSpaces = c_string
                     self.passwordEntry["text"] = conNoSpaces
             except:
-                # if everything fails, clear the screen
-                self.passwordEntry["text"] = ""
-                pass_input.clear()
-                pass_conceal.clear()
+                 self.passwordEntry["text"] = ""
+                 pass_input.clear()
         
         # a cap on the password
         elif(len(pass_input) >= 8):
@@ -294,8 +313,11 @@ class Screen(Frame):
             # display * when presses to conceal the password
             self.passwordEntry["text"] += "*"
             
-    
-    # function for the confirm button to determine if the entered password is correct or not
+              
+ 
+
+
+   # function for the confirm button to determine if the entered password is correct or not
     def PassConfirm(self):
         global pass_list
         counter = 0
@@ -319,40 +341,75 @@ class Screen(Frame):
                 counter = 0
         except:
             self.PassFail()
-            
-
+        
     # the next screen for the admin
     def SettingsPage2(self):
         self.Level1()
         # Mason's file
         #bg = PhotoImage(file = "Project Buttons/La_tech.gif")
         # Reese's file
-        bg = PhotoImage(file = "C:/Users/reese/OneDrive/Desktop/mygitfolder/La_tech.gif")
+        bg = PhotoImage(file = "/home/pi/Freshman Expo Project/La_tech.gif")
         self.label= Label(self, image=bg)
         self.label.image = bg
         self.label.place(x=0,y=0,relheight=1, relwidth=1)
         self.pack(fill=BOTH, expand=1)
         
         # the request maintenance button
-        self.reqMain = Button(self, bg="orange", text="Request Maintenance",font=("Arial", 20), command = lambda:self.requestMain())
+        self.reqMain = Button(self, bg="red", text="Request Maintenance",font=("Arial", 20), command = lambda: self.requestMain())
         self.reqMain.place(x=50, y=100)
 
+        # Button connected to go back to home page
+        self.BackButton = Button(self, bg = "blue", text = "Home", font=("Arial", 25), command= lambda: self.setupGUI())
+        self.BackButton.place(x=500, y=100)
 
+        # recalbrate button
+        self.recalbrate = Button(self, bg = "white", text = "Recalibrate", font=("Arial", 25), command= lambda: self.Recalbrate())
+        self.recalbrate.place(x=400, y=300)
+        
+    # Recalbrate the stock
+    def Recalbrate(self):
+        GPIO.cleanup()
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(20, GPIO.IN, GPIO.PUD_DOWN)
+        i = GPIO.input(20)
+        if (i == True):
+            self.stock = 1
+            self.sold = 0
+            self.change()
+            return
+        self.stock = 0
+        self.sold = 1
+        self.change()
+        
     # this is where the code will go for sending a text message requesting for maintenance
     def requestMain(self):
-        pass
+        # twilio set up
+        # download twilio
+        account_sid = "AC6078307f4c950e4fa6fc3ed5375301ae"
+
+        auth_token  = "3d66b86fd208c2b9c70f10628af90a58"
+
+        client = Client(account_sid, auth_token)
+
+        message = client.messages.create(
+            to="+13183444853",
+            from_="+18623621556",
+            body="Machine 1 needs assistance!")
+
+        print(message.sid)
+        
 
     # displays the entered password is incorrect
     # destroys itself after 3 seconds
     def PassFail(self):
             pass_input.clear()
+            pass_conceal.clear()
             self.passwordEntry["text"] = ""
             incorrect = Label(text="Incorrect password. Try again")
-            incorrect.place(x=100, y=320)
-            incorrect.after(3000, lambda: incorrect.destroy())
+            incorrect.place(x=250, y=100)
+            incorrect.after(1000, lambda: incorrect.destroy())
 
 
-        
     def StockPage(self):
         # Clears all vending options
         self.Level1()
@@ -385,17 +442,6 @@ class Screen(Frame):
             self.confirm.destroy()
             self.passwordEntry.destroy()
             self.passlabel.destroy()
-            self.nine.destroy()
-            self.eight.destroy()
-            self.seven.destroy()
-            self.six.destroy()
-            self.five.destroy()
-            self.four.destroy()
-            self.three.destroy()
-            self.two.destroy()
-            self.one.destroy()
-            self.zero.destroy()
-            self.back.destroy()
         except:
             pass
         try:
@@ -415,7 +461,30 @@ class Screen(Frame):
         except:
             pass
         try:
+            self.confirm.destroy()
+            self.passwordEntry.destroy()
+            self.passlabel.destroy()
+            self.nine.destroy()
+            self.eight.destroy()
+            self.seven.destroy()
+            self.six.destroy()
+            self.five.destroy()
+            self.four.destroy()
+            self.three.destroy()
+            self.two.destroy()
+            self.one.destroy()
+            self.zero.destroy()
+            self.back.destroy()
+            try:
+                pass_input.clear()
+                pass_conceal.clear()
+            except:
+                pass
+        except:
+            pass
+        try:
             self.reqMain.destroy()
+            self.recalbrate.destroy()
         except:
             pass
 
@@ -425,10 +494,10 @@ class Screen(Frame):
         # Mason's file
         #img = Image.open(r"Project Buttons/dewspin.gif")
         # Reese's file
-        img = Image.open(r"C:/Users/reese/OneDrive/Desktop/mygitfolder/dew.gif")
+        img = Image.open(r"/home/pi/Freshman Expo Project/dew.gif")
         framesTotal = img.n_frames
 
-        play_back_delay = 70
+        play_back_delay = 130
         animation = []
         def loadGif():
             for x in range(framesTotal):
@@ -447,44 +516,51 @@ class Screen(Frame):
             self.after(play_back_delay, update, ind)
         # the setup for the button itself, assigning the image on top of it
         self.label5 = Label(self)
-        self.label5.place(x=300, y = 250)
+        self.label5.place(x=300, y = 100)
         loadGif()
         update(0)
         # Reese's file
-        Plus = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Plus_Sign.png")                       ##### Change file path
+        Plus = PhotoImage(file="/home/pi/Freshman Expo Project/Plus_Sign.png")                       ##### Change file path
         self.more = Button(self, image=Plus, borderwidth=0, command=lambda: self.StockChange(1))
         self.more.image = Plus
-        self.more.place(x=455, y=600, relheight=0.1, relwidth=0.1)
+        self.more.place(x=440, y=320, relheight=0.2, relwidth=0.2)
         self.BackButton = Button(self, text="Back", font=("Arial",25),command= lambda: self.setupGUI())
-        self.BackButton.place(x=330, y=100, relheight=0.1, relwidth=0.2)
+        self.BackButton.place(x=330, y=30, relheight=0.1, relwidth=0.2)
         # Reese's File 
-        Minus = PhotoImage(file="C:/Users/reese/OneDrive/Desktop/mygitfolder/Minus_Sign.png")                      ##### Change File Path
+        Minus = PhotoImage(file="/home/pi/Freshman Expo Project/Minus_Sign.png")                      ##### Change File Path
         self.minus = Button(self, image=Minus, borderwidth=0, command=lambda: self.StockChange(-1))
         self.minus.image = Minus
-        self.minus.place(x=295, y=600, relheight=0.1, relwidth=0.1)
-        self.text1 = Label(self, bg="white", text=f"{self.num}", background="green")
-        self.text1.place(x=375, y=600, relheight=0.1, relwidth=0.1)
+        self.minus.place(x=223, y=320, relheight=0.2, relwidth=0.14)
+        self.text1 = Label(self, bg="white", text=f"{self.num}", font=("Arial", 25),background="green")
+        self.text1.place(x=320, y=320, relheight=0.2, relwidth=0.2)
         self.confirm = Button(self, text="Confirm", bg="green", font=("Arial", 25), command=lambda: self.Confirmed())
-        self.confirm.place(x = 335, y = 700, relheight=0.1, relwidth=0.2)
+        self.confirm.place(x = 320, y = 430, relheight=0.1, relwidth=0.2)
 
     def StockChange(self, num1):
-        if (self.num>1 and num1 == 1):
+        if (self.num>0 and num1 == 1):
             return
         if (self.num==0 and num1 == -1):
             return
         num = self.num+num1
         self.num = num
-        self.text1.configure(bg="white", text=f"{self.num}", background="green")
-        self.text1.place(x=375, y=600, relheight=0.1, relwidth=0.1)
+        self.text1.configure(bg="white", text=f"{self.num}", font=("Arial",25) ,background="green")
+        self.text1.place(x=320, y=320, relheight=0.2, relwidth=0.2)
     
     def Confirmed(self):
         Catch = self.stock - self.num
-        print(Catch)
         if (Catch<0):
+            label6 = Label(self,bg = "red", text = "Sold Out", font = ("Arial", 25))
+            label6.place(x=60, y=200)
+            label6.after(1000, lambda: label6.destroy())
             return
-        self.change()
+        if (self.num!= 0):
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(16, GPIO.OUT)
+            GPIO.output(16, GPIO.HIGH)
+            GPIO.output(16, GPIO.LOW)
         self.stock -=self.num
         self.sold = 2-self.stock
+        self.change()
         self.num = 0
         self.setupGUI()
 
@@ -498,19 +574,26 @@ class Screen(Frame):
 password = ("0","0","0","0")
 pass_input = []
 pass_conceal = []
-# set up for json file which is connected to google drive
-# download google drive for desktop and put the file path to the file "label.json" 
-# Reese's json file
 
-data_Open_Location = "G:/My Drive/Project/label.json"
-startingdata = open(data_Open_Location, "w")
-StartingInfo = {"Stock": 1, "bean":5}
-startingdata.write(str(StartingInfo))
-startingdata.close()
+
+
 
 
 # basic tk stuff, just setting up the screen and constantly looping the class
 window = Tk()
-window.geometry("{}x{}".format(800, 800))
+window.geometry("{}x{}".format(800, 480))
+try:
+    if count == 1:
+        pass
+except:
+    window.attributes('-fullscreen', True)
+window.bind("<Escape>", lambda event: Escape())
+def Escape():
+    window.attributes('-fullscreen', False)
+    try:
+        GPIO.cleanup()
+    except:
+        pass
+    count = 1
 s = Screen(window)
 s.mainloop()
